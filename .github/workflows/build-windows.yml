@@ -1,0 +1,42 @@
+# Fabrique automatiquement l'installateur Windows de JSM Gestion.
+# Se lance à chaque envoi sur la branche principale, ou à la main
+# (onglet Actions › « Construire l'installateur Windows » › Run workflow).
+name: Construire l'installateur Windows
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Installer Electron et l'outil de fabrication
+        run: npm install
+
+      - name: Vérifier les calculs (tests)
+        run: npm test
+
+      - name: Fabriquer l'installateur .exe
+        run: npm run dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Mettre l'installateur à télécharger
+        uses: actions/upload-artifact@v4
+        with:
+          name: JSM-Gestion-windows
+          path: dist/*.exe
+          if-no-files-found: error
