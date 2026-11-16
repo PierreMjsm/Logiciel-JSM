@@ -1,5 +1,0 @@
-node_modules/
-dist/
-.superpowers/
-tests/fixtures/*.xlsm
-*.log
