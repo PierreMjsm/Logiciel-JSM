@@ -1,0 +1,48 @@
+{
+  "name": "jsm-gestion",
+  "productName": "JSM Gestion",
+  "version": "1.4.2",
+  "description": "Gestion de l'accueil de loisirs Les Jeunes de Saint-Médard",
+  "author": "Les Jeunes de Saint-Médard",
+  "type": "commonjs",
+  "main": "electron/main.js",
+  "scripts": {
+    "test": "node --test \"tests/core/*.test.js\" \"tests/electron/*.test.js\"",
+    "start": "electron .",
+    "dist": "electron-builder --win nsis --publish never",
+    "test:ui": "node --test \"tests/ui/*.spec.js\""
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "fr.jsm.gestion",
+    "productName": "JSM Gestion",
+    "directories": {
+      "app": ".",
+      "output": "dist"
+    },
+    "files": [
+      "electron/**",
+      "src/**",
+      "app/**",
+      "modeles/**",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "JSM-Gestion-Setup-${version}.${ext}",
+      "shortcutName": "JSM Gestion"
+    },
+    "asar": false
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}
